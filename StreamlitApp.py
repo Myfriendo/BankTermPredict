@@ -15,7 +15,7 @@ default_dict = {"no": 0, "yes": 1, "unknown": 2}
 housing_dict = {"no": 0, "yes": 1, "unknown": 2}
 loan_dict = {"no": 0, "yes": 1, "unknown": 2}
 
-model = pickle.load(open('medical_insurance_cost_predictor.sav', 'rb'))  # Replace with your actual model file
+model = pickle.load(open('banktermpredict/medical_insurance_cost_predictor.sav', 'rb'))  # Replace with your actual model file
 
 # Prediction function
 def predict(data):
