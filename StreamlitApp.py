@@ -1,65 +1,65 @@
 import streamlit as st
 import pickle
-import numpy as np
+import pandas as pd
 
-# Define mappings (replace with your actual mappings or dictionaries)
-jobs = {"admin": 0, "blue-collar": 1, "entrepreneur": 2, "housemaid": 3, "management": 4, "retired": 5,
-        "self-employed": 6, "services": 7, "technician": 8, "unemployed": 9, "unknown": 10}
+# Load the trained pipeline
+model_path = 'bank_marketing_pipeline.sav'
+with open(model_path, 'rb') as file:
+    pipeline = pickle.load(file)
 
-education_status = {"basic.4y": 0, "basic.6y": 1, "basic.9y": 2, "high.school": 3, "illiterate": 4,
-                    "professional.course": 5, "university.degree": 6, "unknown": 7}
+# Streamlit App
+st.title("Bank Marketing Campaign Prediction")
+st.write("Provide the required details below to predict if a customer will subscribe to the term deposit.")
 
-marital_status = {"divorced": 0, "married": 1, "single": 2, "unknown": 3}
-
-default_dict = {"no": 0, "yes": 1, "unknown": 2}
-housing_dict = {"no": 0, "yes": 1, "unknown": 2}
-loan_dict = {"no": 0, "yes": 1, "unknown": 2}
-
-model = pickle.load(open('C:\\Users\\deniz\\PycharmProjects\\BankDepositTermPredict\\bank_marketing_prediction.sav', 'rb'))
-
-# Prediction function
-def predict(data):
-    array_data = np.asarray(data).reshape(1, -1)
-    prediction = model.predict(array_data)
-    return prediction
-
-# Streamlit app
-st.title("Medical Insurance Cost Prediction")
-st.write("Provide the required details below to predict the insurance cost.")
-
+# Input Form
 with st.form("prediction_form"):
-    age = st.number_input("Age", min_value=1, max_value=120, step=1)
-    job = st.selectbox("Job Type", options=jobs.keys())
-    marital = st.selectbox("Marital Status", options=marital_status.keys())
-    education = st.selectbox("Education Level", options=education_status.keys())
-    default = st.selectbox("Has Credit in Default?", options=default_dict.keys())
-    housing = st.selectbox("Has Housing Loan?", options=housing_dict.keys())
-    loan = st.selectbox("Has Personal Loan?", options=loan_dict.keys())
-    balance = st.number_input("Account Balance", value=0.0, step=0.1)
+    # Numerical Features
+    age = st.number_input("Age", min_value=18, max_value=100, step=1)
+    campaign = st.number_input("Number of Contacts During Campaign", value=1, step=1)
+    pdays = st.number_input("Days Since Last Contact (999 = never contacted)", value=999, step=1)
+    previous = st.number_input("Number of Contacts Before This Campaign", value=0, step=1)
+    emp_var_rate = st.number_input("Employment Variation Rate", value=0.0, step=0.1)
+    cons_price_idx = st.number_input("Consumer Price Index", value=93.0, step=0.1)
+    cons_conf_idx = st.number_input("Consumer Confidence Index", value=-36.0, step=0.1)
+    euribor3m = st.number_input("Euribor 3-Month Rate", value=4.0, step=0.1)
+    nr_employed = st.number_input("Number of Employees", value=5000.0, step=0.1)
 
-    # Submit button
+    # Categorical Features
+    job = st.selectbox("Job", ["admin.", "blue-collar", "entrepreneur", "housemaid", "management", "retired",
+                               "self-employed", "services", "student", "technician", "unemployed", "unknown"])
+    marital = st.selectbox("Marital Status", ["divorced", "married", "single", "unknown"])
+    education = st.selectbox("Education Level", ["unknown", "basic.4y", "basic.6y", "basic.9y",
+                                                 "high.school", "illiterate", "professional.course", "university.degree"])
+    default = st.selectbox("Has Credit in Default?", ["no", "yes", "unknown"])
+    housing = st.selectbox("Has Housing Loan?", ["no", "yes", "unknown"])
+    loan = st.selectbox("Has Personal Loan?", ["no", "yes", "unknown"])
+    contact = st.selectbox("Contact Communication Type", ["cellular", "telephone", "unknown"])
+    month = st.selectbox("Month of Last Contact", ["jan", "feb", "mar", "apr", "may", "jun",
+                                                   "jul", "aug", "sep", "oct", "nov", "dec"])
+    day_of_week = st.selectbox("Day of Week (Last Contact)", ["mon", "tue", "wed", "thu", "fri"])
+    poutcome = st.selectbox("Outcome of Previous Campaign", ["unknown", "failure", "other", "success"])
+
+    # Submit Button
     submit = st.form_submit_button("Predict")
 
 if submit:
-    # Map inputs to numeric values
-    input_data = [
-        age,
-        jobs[job],
-        marital_status[marital],
-        education_status[education],
-        default_dict[default],
-        housing_dict[housing],
-        loan_dict[loan],
-        balance,
-    ]
+    # Create DataFrame with expected feature names
+    input_data = pd.DataFrame([[
+        age, job, marital, education, default, housing, loan, contact, month, day_of_week,
+        campaign, pdays, previous, poutcome, emp_var_rate, cons_price_idx, cons_conf_idx,
+        euribor3m, nr_employed
+    ]], columns=[
+        'age', 'job', 'marital', 'education', 'default', 'housing', 'loan', 'contact',
+        'month', 'day_of_week', 'campaign', 'pdays', 'previous', 'poutcome',
+        'emp.var.rate', 'cons.price.idx', 'cons.conf.idx', 'euribor3m', 'nr.employed'
+    ])
 
-    # Prediction
-    result = predict(input_data)
+    # Make a prediction using the loaded pipeline
+    prediction = pipeline.predict(input_data)
 
-    # Display result
+    # Display Result
     st.write("### Prediction Result")
-    if result == 1:
-        st.success("The customer is likely to **subscribe** to medical insurance.")
+    if prediction[0] == 1:
+        st.success("The customer is likely to **subscribe** to the term deposit.")
     else:
-        st.warning("The customer is likely to **not subscribe** to medical insurance.")
-
+        st.warning("The customer is likely to **not subscribe** to the term deposit.")
