@@ -48,7 +48,6 @@ if st.button("Predict"):
     # Debugging: Print input data
     st.write("### Input Data for Prediction")
     st.write(input_data)
-
     try:
         # Make prediction
         prediction = model.predict(input_data)
