@@ -61,5 +61,5 @@ if submit:
     st.write("### Prediction Result")
     if prediction[0] == 1:
         st.success("The customer is likely to **subscribe** to the term deposit.")
-    else:
+    elif prediction[0] == 0:
         st.warning("The customer is likely to **not subscribe** to the term deposit.")
