@@ -87,14 +87,30 @@ if st.button("Predict"):
         st.error(f"An error occurred during prediction: {str(e)}")
 
 if st.button("Predict with Sample Data"):
-    for case_name, case_data in sample_data.items():
-        input_data = pd.DataFrame([case_data])  # Create DataFrame from the dictionary
-        try:
-            prediction = model.predict(input_data)
-            st.write(f"### Prediction for {case_name}:")
-            if prediction[0] == 1:
-                st.success("The customer is likely to subscribe.")
-            else:
-                st.warning("The customer is likely to not subscribe.")
-        except Exception as e:
-            st.error(f"Error during sample prediction: {e}")
+    # Sample case 1: "yes_case"
+    case_name_yes = "yes_case"
+    case_data_yes = sample_data[case_name_yes]
+    input_data_yes = pd.DataFrame([case_data_yes])  # Create DataFrame from the dictionary
+    try:
+        prediction_yes = model.predict(input_data_yes)
+        st.write(f"### Prediction for {case_name_yes}:")
+        if prediction_yes[0] == 1:
+            st.success("The customer is likely to subscribe.")
+        else:
+            st.warning("The customer is likely to not subscribe.")
+    except Exception as e:
+        st.error(f"Error during prediction for {case_name_yes}: {e}")
+
+    # Sample case 2: "no_case"
+    case_name_no = "no_case"
+    case_data_no = sample_data[case_name_no]
+    input_data_no = pd.DataFrame([case_data_no])  # Create DataFrame from the dictionary
+    try:
+        prediction_no = model.predict(input_data_no)
+        st.write(f"### Prediction for {case_name_no}:")
+        if prediction_no[0] == 1:
+            st.success("The customer is likely to subscribe.")
+        else:
+            st.warning("The customer is likely to not subscribe.")
+    except Exception as e:
+        st.error(f"Error during prediction for {case_name_no}: {e}")
