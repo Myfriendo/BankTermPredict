@@ -62,5 +62,19 @@ if st.button("Predict"):
             st.warning("The customer is likely to not subscribe to the term deposit.")
         else:
             st.error("Unexpected prediction result.")
+
+        # Feature Importance (if available in your model)
+        if hasattr(model, 'feature_importances_'):  # Check if the model has feature importances
+            importances = model.feature_importances_
+            feature_names = input_data.columns  # Get feature names from the input data
+
+            # Create a DataFrame for easier plotting
+            importance_df = pd.DataFrame({'Feature': feature_names, 'Importance': importances})
+            importance_df = importance_df.sort_values(by='Importance', ascending=False)
+
+            st.write("### Feature Importance:")
+            # Use st.bar_chart for interactive bar chart
+            st.bar_chart(importance_df.set_index('Feature'))
+
     except Exception as e:
         st.error(f"An error occurred during prediction: {str(e)}")
