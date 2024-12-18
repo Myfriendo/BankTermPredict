@@ -44,6 +44,26 @@ input_data = pd.DataFrame({
     'euribor3m': [euribor3m], 'nr.employed': [nr_employed]
 })
 
+
+# Sample Data for Testing
+sample_data = {
+    "yes_case": {
+        'age': 45, 'job': 'management', 'marital': 'married', 'education': 'university.degree',
+        'default': 'no', 'housing': 'yes', 'loan': 'no', 'contact': 'cellular',
+        'month': 'oct', 'day_of_week': 'wed', 'campaign': 3, 'pdays': -1, 'previous': 0,
+        'emp.var.rate': 2.0, 'cons.price.idx': 94.5, 'cons.conf.idx': -20.0,
+        'euribor3m': 3.0, 'nr.employed': 5500.0
+    },
+    "no_case": {
+        'age': 22, 'job': 'student', 'marital': 'single', 'education': 'basic.4y',
+        'default': 'unknown', 'housing': 'no', 'loan': 'yes', 'contact': 'unknown',
+        'month': 'dec', 'day_of_week': 'fri', 'campaign': 10, 'pdays': 30, 'previous': 2,
+        'emp.var.rate': -0.5, 'cons.price.idx': 96.0, 'cons.conf.idx': -40.0,
+        'euribor3m': 1.5, 'nr.employed': 4800.0
+    }
+}
+
+
 if st.button("Predict"):
     # Debugging: Print input data
     st.write("### Input Data for Prediction")
@@ -63,6 +83,18 @@ if st.button("Predict"):
         else:
             st.error("Unexpected prediction result.")
 
-
     except Exception as e:
         st.error(f"An error occurred during prediction: {str(e)}")
+
+if st.button("Predict with Sample Data"):
+    for case_name, case_data in sample_data.items():
+        input_data = pd.DataFrame([case_data])  # Create DataFrame from the dictionary
+        try:
+            prediction = model.predict(input_data)
+            st.write(f"### Prediction for {case_name}:")
+            if prediction[0] == 1:
+                st.success("The customer is likely to subscribe.")
+            else:
+                st.warning("The customer is likely to not subscribe.")
+        except Exception as e:
+            st.error(f"Error during sample prediction: {e}")
