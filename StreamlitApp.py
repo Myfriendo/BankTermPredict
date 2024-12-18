@@ -44,13 +44,24 @@ input_data = pd.DataFrame({
     'euribor3m': [euribor3m], 'nr.employed': [nr_employed]
 })
 
-# Predict button
 if st.button("Predict"):
+    # Debugging: Print input data
+    st.write("### Input Data for Prediction")
+    st.write(input_data)
+
     try:
+        # Make prediction
         prediction = model.predict(input_data)
+        st.write("### Raw Prediction Output")
+        st.write(prediction)
+
+        # Display the result
+        st.write("### Prediction Result")
         if prediction[0] == 1:
-            st.success("The client is likely to subscribe to a term deposit!")
+            st.success("The customer is likely to subscribe to the term deposit.")
+        elif prediction[0] == 0:
+            st.warning("The customer is likely to not subscribe to the term deposit.")
         else:
-            st.warning("The client is unlikely to subscribe to a term deposit.")
+            st.error("Unexpected prediction result.")
     except Exception as e:
-        st.error(f"An error occurred during prediction: {str(e)}")
+        st.error(f"An error occurred during prediction: {str(e)}")
