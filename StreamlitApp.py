@@ -2,9 +2,16 @@ import streamlit as st
 import pandas as pd
 import joblib
 
-# Load the trained pipeline
-model_path = 'bank_marketing_pipeline.sav'
-model = joblib.load(model_path)
+
+# Display a link to the GitHub README
+st.markdown(
+    """
+    [View the README file on GitHub](https://github.com/Myfriendo/BankTermPredict/blob/master/README.md)
+    """,
+    unsafe_allow_html=True
+)
+
+
 
 # Streamlit App Title
 st.title("Bank Term Deposit Prediction")
@@ -65,6 +72,11 @@ sample_data = {
 
 
 if st.button("Predict"):
+
+    # Load the trained pipeline
+    model_path = 'bank_marketing_pipeline.sav'
+    model = joblib.load(model_path)
+
     # Debugging: Print input data
     st.write("### Input Data for Prediction")
     st.write(input_data)
@@ -87,6 +99,11 @@ if st.button("Predict"):
         st.error(f"An error occurred during prediction: {str(e)}")
 
 if st.button("Predict with Sample Data"):
+
+    # Load the trained pipeline
+    model_path = 'bank_marketing_pipeline.sav'
+    model = joblib.load(model_path)
+
     # Sample case 1: "yes_case"
     case_name_yes = "yes_case"
     case_data_yes = sample_data[case_name_yes]
