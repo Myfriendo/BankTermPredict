@@ -55,11 +55,24 @@ input_data = pd.DataFrame({
 # Sample Data for Testing
 sample_data = {
     "yes_case": {
-        'age': 45, 'job': 'management', 'marital': 'married', 'education': 'university.degree',
-        'default': 'no', 'housing': 'yes', 'loan': 'no', 'contact': 'cellular',
-        'month': 'oct', 'day_of_week': 'wed', 'campaign': 3, 'pdays': -1, 'previous': 0,
-        'emp.var.rate': 2.0, 'cons.price.idx': 94.5, 'cons.conf.idx': -20.0,
-        'euribor3m': 3.0, 'nr.employed': 5500.0
+        "age": 30,
+        "job": "admin.",
+        "marital": "married",
+        "education": "basic.4y",
+        "default": "yes",
+        "housing": "yes",
+        "loan": "yes",
+        "contact": "cellular",
+        "month": "jan",
+        "day_of_week": "mon",
+        "campaign": 1,
+        "pdays": -1,
+        "previous": 0,
+        "emp.var.rate": -1.8,
+        "cons.price.idx": 93,
+        "cons.conf.idx": -36,
+        "euribor3m": 2,
+        "nr.employed": 5000
     },
     "no_case": {
         'age': 22, 'job': 'student', 'marital': 'single', 'education': 'basic.4y',
@@ -67,7 +80,9 @@ sample_data = {
         'month': 'dec', 'day_of_week': 'fri', 'campaign': 10, 'pdays': 30, 'previous': 2,
         'emp.var.rate': -0.5, 'cons.price.idx': 96.0, 'cons.conf.idx': -40.0,
         'euribor3m': 1.5, 'nr.employed': 4800.0
-    }
+    },
+
+
 }
 
 
