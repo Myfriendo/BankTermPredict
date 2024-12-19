@@ -55,24 +55,11 @@ input_data = pd.DataFrame({
 # Sample Data for Testing
 sample_data = {
     "yes_case": {
-        "age": 30,
-        "job": "admin.",
-        "marital": "married",
-        "education": "basic.4y",
-        "default": "yes",
-        "housing": "yes",
-        "loan": "yes",
-        "contact": "cellular",
-        "month": "jan",
-        "day_of_week": "mon",
-        "campaign": 1,
-        "pdays": -1,
-        "previous": 0,
-        "emp.var.rate": -1.8,
-        "cons.price.idx": 93,
-        "cons.conf.idx": -36,
-        "euribor3m": 2,
-        "nr.employed": 5000
+        "age": 30,"job": "admin.","marital": "married","education": "basic.4y",
+        "default": "yes","housing": "yes","loan": "yes","contact": "cellular",
+        "month": "jan","day_of_week": "mon","campaign": 1,"pdays": -1,"previous": 0,
+        "emp.var.rate": -1.8,"cons.price.idx": 93, "cons.conf.idx": -36,
+        "euribor3m": 2, "nr.employed": 5000
     },
     "no_case": {
         'age': 22, 'job': 'student', 'marital': 'single', 'education': 'basic.4y',
